@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Telekomunikacije.Models.Course> 
+@{
+    ViewBag.Title = "GetCourses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Kursevi na Katedri Telekomunikacije</h2>
+
+@Html.ActionLink("New Course","New","Courses",new { @class = "btn btn-primary" })
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                Ime Kursa
+            </th>
+            <th>
+                ESPB
+            </th>
+            <th>
+                Delete
+            </th>
+        </tr>
+    </thead>
+  
+   
+    <tbody>
+        <tr>
+            <th>
+                Druga Godina
+            </th>
+        </tr>
+        @foreach (var item in Model.Where(c => c.Year == 2))
+        {
+        <tr>
+
+            <td>
+                @Html.ActionLink(@item.Name, "Enrolment", "Courses", new { id = item.Id }, null)
+            </td>
+               
+            
+            <td>
+                @item.ESPB
+            </td>
+            <td>
+                @using (Html.BeginForm("Delete", "Courses", new { id = item.Id }))
+                {
+                    <input type="submit" value="Izbrisati Kurs" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da zelite da izbrisete kurs @item.Name?'"/>
+                }
+            </td>
+
+        </tr>
+        }
+    </tbody>
+    <tbody>
+        <tr>
+            <th>
+                Treca Godina
+            </th>
+        </tr>
+        @foreach (var item in Model.Where(c => c.Year == 3))
+        {
+        <tr>
+
+            <td>
+                @Html.ActionLink(@item.Name, "Enrolment", "Courses", new { id = item.Id }, null)
+            </td>
+            <td>
+                @item.ESPB
+            </td>
+            <td>
+                @using (Html.BeginForm("Delete", "Courses", new { id = item.Id }))
+                {
+                    <input type="submit" value="Izbrisati Kurs" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da zelite da izbrisete kurs @item.Name?')" />
+                }
+            </td>
+
+
+        </tr>
+        }
+    </tbody>
+    <tbody>
+        <tr>
+            <th>
+                Cetvrta Godina
+            </th>
+        </tr>
+        @foreach (var item in Model.Where(c => c.Year == 4))
+        {
+        <tr>
+
+            <td>
+                @Html.ActionLink(@item.Name, "Enrolment", "Courses", new { id = item.Id }, null)
+            </td>
+            <td>
+                @item.ESPB
+            </td>
+            <td>
+                @using (Html.BeginForm("Delete", "Courses", new { id = item.Id }))
+                {
+                    <input type="submit" value="Izbrisati Kurs" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da zelite da izbrisete kurs @item.Name?'" />
+                }
+            </td>
+
+        </tr>
+        }
+    </tbody>
+
+</table> 
+
+
+

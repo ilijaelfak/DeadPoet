@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Telekomunikacije.Models.ApplicationUser>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<ul>
+    @foreach (var item in Model)
+    {
+    <li>
+        @item.Email
+    </li>
+    }
+</ul>

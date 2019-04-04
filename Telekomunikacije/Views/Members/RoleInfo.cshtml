@@ -1,0 +1,16 @@
+﻿@model Telekomunikacije.ViewModels.UserRoleViewModel
+@{
+    ViewBag.Title = "RoleInfo";
+}
+
+<h2>@Model.UserName</h2>
+
+@using (Html.BeginForm("AddRole", "Members"))
+{
+    <div class="form-group">
+        @Html.LabelFor(x => x.IdentityRoles)
+        @Html.DropDownListFor(x => x.IdentityRoles, new SelectList(Model.IdentityRoles, "Id", "Name"), "", new { @class = "form-control" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Sacuvajte Kurs</button>
+}

@@ -1,0 +1,31 @@
+﻿@model Telekomunikacije.Models.Course
+@{
+    ViewBag.Title = "Enrolment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/Site.css" rel="stylesheet" />
+
+<h2>
+    @Model.Name
+</h2>
+@Html.ValidationSummary(true, "Molimo ispavite greske prilikom upisivanja na kurs")
+
+@using (Html.BeginForm("EnrolStudent", "Courses"))
+{
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.Password)
+        @Html.PasswordFor(c => c.Password, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.Password)
+    </div>
+    @Html.HiddenFor(m => m.Name)
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.ESPB)
+    @Html.HiddenFor(m => m.Year)
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Upisi se na Kurs</button>
+    </div>
+
+}

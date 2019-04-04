@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Telekomunikacije.ViewModels.UserRoleViewModel>
+@{
+    ViewBag.Title = "MembersInfo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>MembersInfo</h2>
+
+<table class="table table-hover table-bordered table-condensed" id="example1">
+    <thead>
+        <tr>
+            <td><b>Ime Korisnika</b></td>
+            <td><b>Promeni Autorizaciju</b></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>
+                Administratori
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+            @foreach (var role in item.IdentityRoles)
+                {
+
+                        if (role.Name == "CanDoEverything")
+                            {
+                                <td>
+                                        @Html.ActionLink(item.UserName, "MembersInfo", "Members", new { id = item.Id }, null)
+                                </td>
+                                
+                            }
+
+
+                    }
+
+                
+            </tr>
+        }
+        <tr>
+            <th>
+                Profesori
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+    <tr>
+
+        @foreach (var role in item.IdentityRoles)
+        {
+
+            if (role.Name == "CanTeach")
+            {
+                <td>
+                    @Html.ActionLink(item.UserName, "MembersInfo", "Members", new { id = item.Id }, null)
+                </td>
+                <td>
+                    @Html.ActionLink("Izmeni Role", "RoleInfo", "Members", new { id = item.Id },null)
+                </td>
+            }
+
+
+        }
+
+
+    </tr>
+        }
+        <tr>
+            <th>
+                Studenti
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+    <tr>
+
+        @foreach (var role in item.IdentityRoles)
+        {
+
+            if (role.Name == "CanLearn")
+            {
+                <td>
+                    @Html.ActionLink(item.UserName, "MembersInfo", "Members", new { id = item.Id }, null)
+                </td>
+                <td>
+                    @Html.ActionLink("Izmeni Role", "RoleInfo", "Members", new { id = item.Id }, null)
+                </td>
+
+            }
+
+
+        }
+
+
+    </tr>
+        }
+    </tbody>
+</table>
