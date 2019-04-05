@@ -1,16 +1,47 @@
-﻿@model Telekomunikacije.ViewModels.UserRoleViewModel
+﻿@model Telekomunikacije.ViewModels.UserRoleManageViewModel
+
 @{
     ViewBag.Title = "RoleInfo";
 }
 
-<h2>@Model.UserName</h2>
+<h2>@Model.UserRoleViewModel.UserName</h2>
+<h3>Trenutne role korisnika @Model.UserRoleViewModel.UserName</h3>
+@using (Html.BeginForm("GetRoles", "Members"))
+{
+    @Html.HiddenFor(m => m.AllRoles)
+    @Html.HiddenFor(m => m.UserRoleViewModel.Id)
 
-@using (Html.BeginForm("AddRole", "Members"))
+    @Html.HiddenFor(m => m.UserRoleViewModel.UserName)
+    <button type="submit" class="btn btn-primary">Osvezi</button>
+}
+<ul>
+    @foreach (var item in Model.UserRoleViewModel.IdentityRoles)
+    {
+        <li>
+            @item.Name
+        </li>
+    }
+</ul>
+@using (Html.BeginForm("RoleAddToMember", "Members"))
 {
     <div class="form-group">
-        @Html.LabelFor(x => x.IdentityRoles)
-        @Html.DropDownListFor(x => x.IdentityRoles, new SelectList(Model.IdentityRoles, "Id", "Name"), "", new { @class = "form-control" })
+
+
+        @Html.DropDownList("Id", new SelectList(Model.AllRoles, "Id", "Name"), "Izaberi", new { @class = "form-control" })
+        @Html.HiddenFor(m => m.UserRoleViewModel.Id)
     </div>
 
-    <button type="submit" class="btn btn-primary">Sacuvajte Kurs</button>
+    <button type="submit" class="btn btn-primary">Dodaj Rolu Korisniku</button>
+}
+
+@using (Html.BeginForm("DeleteRoleForMember", "Members"))
+{
+    <div class="form-group">
+
+
+        @Html.DropDownList("Id", new SelectList(Model.AllRoles, "Id", "Name"), "Izaberi", new { @class = "form-control" })
+        @Html.HiddenFor(m => m.UserRoleViewModel.Id)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Ukloni Rolu</button>
 }
