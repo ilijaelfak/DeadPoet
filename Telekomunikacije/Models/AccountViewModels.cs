@@ -66,9 +66,7 @@ namespace Telekomunikacije.Models
 
     public class RegisterViewModel
     {
-        [Required]
-        [Display(Name ="Broj Indexa")]
-        public string IndexNumber { get; set; }
+      
 
         [Required]
         public string UserName { get; set; }
@@ -88,6 +86,11 @@ namespace Telekomunikacije.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+    }
+
+    public class RegisterInfoViewModel
+    {
+
     }
 
     public class ResetPasswordViewModel
@@ -117,5 +120,25 @@ namespace Telekomunikacije.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+    }
+
+    public class EditViewModel
+    {
+
+        [Required]
+        public string Id { get; set; }
+
+        [Required]
+        [Display(Name = "Broj Indexa")]
+        public string IndexNumber { get; set; }
+
+        [Required]
+        public string UserName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
     }
 }

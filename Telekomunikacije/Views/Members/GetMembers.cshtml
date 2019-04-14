@@ -11,6 +11,7 @@
         <tr>
             <td><b>Ime Korisnika</b></td>
             <td><b>Promeni Autorizaciju</b></td>
+            <td><b>Obrisati Korisnika</b></td>
         </tr>
     </thead>
     <tbody>
@@ -58,13 +59,16 @@
                     @Html.ActionLink(item.UserName, "MembersInfo", "Members", new { id = item.Id }, null)
                 </td>
                 <td>
-                    @Html.ActionLink("Izmeni Role", "RoleInfo", "Members", new { id = item.Id },null)
+                    @Html.ActionLink("Izmeni Role", "RoleInfo", "Members", new { id = item.Id }, null)
+                </td>
+                <td>
+                    @Html.ActionLink("Izbrisati", "DeleteConfirmed", "Members", new { id = item.Id }, null)
                 </td>
             }
 
 
         }
-
+        
 
     </tr>
         }
@@ -87,6 +91,9 @@
                 </td>
                 <td>
                     @Html.ActionLink("Izmeni Role", "RoleInfo", "Members", new { id = item.Id }, null)
+                </td>
+                <td>
+                    @Html.ActionLink("Izbrisati", "DeleteConfirmed", "Members", new { id = item.Id }, null)
                 </td>
 
             }

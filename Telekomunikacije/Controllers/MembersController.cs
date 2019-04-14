@@ -8,9 +8,12 @@ using Telekomunikacije.Models;
 using Telekomunikacije.ViewModels;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
+using System.Net;
 
 namespace Telekomunikacije.Controllers
 {
+    [Authorize]
     public class MembersController : Controller
     {
         // GET: Students
@@ -27,13 +30,11 @@ namespace Telekomunikacije.Controllers
         }
         public ActionResult Index()
         {
-            return View();
-            
+            return View();          
         }
         
         public ActionResult GetMembers()
         {
-
             var users = _Context.Users.ToList();
             
             var usersRoles = new List<UserRoleViewModel>();
@@ -62,22 +63,35 @@ namespace Telekomunikacije.Controllers
         }
         public ActionResult MembersInfo(string id)
         {
-
             var user = _Context.Users.Single(x => x.Id == id);
+            var editUser = new EditViewModel
+            {
+                UserName = user.UserName,
+                IndexNumber = user.IndexNumber,
+                Email = user.Email,
+                Id = user.Id
+            };
+            return View(editUser);
+        }
 
-           
+        [HttpPost]
+        public ActionResult Edit(EditViewModel user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("MembersInfo",user);
+            }
 
-            
-          
+            var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_Context));
+            var userInDb = userManager.FindById(user.Id);
 
-          
-            
+            userInDb.UserName = user.UserName;
+            userInDb.IndexNumber = user.IndexNumber;          
+            userInDb.Email = user.Email;
 
-            return View(user);
+            userManager.Update(userInDb);
 
-            
-            
-
+            return RedirectToAction("GetMembers");
         }
 
         public ActionResult RoleInfo(string Id)
@@ -120,8 +134,8 @@ namespace Telekomunikacije.Controllers
 
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(_Context));
             manager.AddToRole(user.UserRoleViewModel.Id, roleName);
+            ViewBag.ResultMessage1 = "Rola je uspesno dodata";
 
-            //var id = user.UserRoleViewModel.Id;
             var p = new UserRoleViewModel
             {
                 UserName = user.UserRoleViewModel.UserName,
@@ -148,7 +162,7 @@ namespace Telekomunikacije.Controllers
                 roles.Add(_Context.Roles.Single(x => x.Id == item.RoleId));
             }
 
-            //var id = user.UserRoleViewModel.Id;
+            
             var p = new UserRoleViewModel
             {
                 UserName = user.UserRoleViewModel.UserName,
@@ -169,15 +183,15 @@ namespace Telekomunikacije.Controllers
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(_Context));
 
             var roleName = _Context.Roles.Single(x => x.Id == Id).Name;
-
+            
             if (manager.IsInRole(user.UserRoleViewModel.Id, roleName))
             {
                 manager.RemoveFromRole(user.UserRoleViewModel.Id, roleName);
-                ViewBag.ResultMessage = "Role removed from this user successfully !";
+                ViewBag.ResultMessage2 = "Role removed from this user successfully !";
             }
             else
             {
-                ViewBag.ResultMessage = "This user doesn't belong to selected role.";
+                ViewBag.ResultMessage2 = "This user doesn't belong to selected role.";
             }
             var userInDb = _Context.Users.Single(x => x.Id == user.UserRoleViewModel.Id);
 
@@ -202,24 +216,47 @@ namespace Telekomunikacije.Controllers
             };
             return View("RoleInfo", p1);
         }
+
+
+        public async Task<ActionResult> DeleteConfirmed(string id)
+        {
+                
+
+                var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(_Context));
+                         
+                var user = await manager.FindByIdAsync(id);
+               
+                var rolesForUser = await manager.GetRolesAsync(id);
+
+                using (var transaction = _Context.Database.BeginTransaction())
+                {
+
+                if (rolesForUser.Count() > 0)
+                    {
+                        foreach (var item in rolesForUser.ToList())
+                        {
+                            
+                            var result = await manager.RemoveFromRoleAsync(user.Id, item);
+                        }
+                    }
+
+                    await manager.DeleteAsync(user);
+                    transaction.Commit();
+                }
+
+                return RedirectToAction("Index");
+           
+                
+            
+        }
+
+
         public ActionResult Pomocni()
         {
 
-            var id = _Context.Users.Single(x => x.UserName == "Admin").Id;
-            var user = new UserRoleViewModel
-            {
-                Id = id,
-                UserName = "Admin",
-                IdentityRoles = _Context.Roles.ToList()
+            
 
-             };
-            var userRoleVM = new UserRoleManageViewModel
-            {
-                AllRoles = _Context.Roles.ToList(),
-                UserRoleViewModel = user
-            };
-
-            return View("RoleInfo", user);
+            return View();
 
 
 

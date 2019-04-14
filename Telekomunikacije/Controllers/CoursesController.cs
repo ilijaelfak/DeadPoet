@@ -7,6 +7,7 @@ using Telekomunikacije.Models;
 
 namespace Telekomunikacije.Controllers
 {
+    [Authorize]
     public class CoursesController : Controller
     {
         private ApplicationDbContext _context;

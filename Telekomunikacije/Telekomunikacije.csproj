@@ -220,6 +220,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\HandleAntiforgeryTokenErrorAttribute.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -295,6 +296,8 @@
     <Content Include="Views\Members\Pomocni.cshtml" />
     <Content Include="Views\Members\MembersInfo.cshtml" />
     <Content Include="Views\Members\RoleInfo.cshtml" />
+    <Content Include="Views\Shared\_NavBarAdmin.cshtml" />
+    <Content Include="Views\Account\RegisterInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

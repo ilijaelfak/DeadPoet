@@ -159,8 +159,8 @@ namespace Telekomunikacije.Controllers
             {
                 var user = new ApplicationUser {
                     UserName = model.UserName,
-                    Email = model.Email,
-                    IndexNumber = model.IndexNumber
+                    Email = model.Email
+                    
                     
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
@@ -195,6 +195,14 @@ namespace Telekomunikacije.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult RegisterInfo()
+        {
+
+
+            return View();
         }
 
         //
